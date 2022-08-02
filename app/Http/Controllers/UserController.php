@@ -13,7 +13,7 @@ class UserController extends Controller
         $fields = $request->validate([
             'first_name'=> 'required|string',
             'last_name'=> 'required|string',
-            'username'=> 'required|unique:users,username',
+            'username'=> 'required|string|unique:users,username',
             'email'=> 'required|unique:users,email',
             'password'=> 'required|string|confirmed'
         ]);
@@ -29,10 +29,40 @@ class UserController extends Controller
         $token = $user->createToken('mytoken')->plainTextToken;
 
         $response = [
-            'user' => $user,
+            'fisrtname' => $user->first_name,
+            'lastname' => $user->last_name,
+            'username' => $user->username,
+            'email' => $user->email,
             'token' => $token,
         ];
 
         return Response($response, 201);
+    }
+
+    public function login(Request $request){
+        $fields = $request->validate([
+            'username'=> 'required|string',
+            'password'=> 'required|string',
+        ]);
+
+        $user = User::where("username", $fields["username"])->first();
+
+        if(!$user || !Hash::check($fields["password"], $user->password) ){
+            return Response([
+                "message"=>"Wrong criditials!"
+            ], 401);
+        }
+
+        $token = $user->createToken('mytoken')->plainTextToken;
+
+        $response = [
+            'fisrtname' => $user->first_name,
+            'lastname' => $user->last_name,
+            'username' => $user->username,
+            'email' => $user->email,
+            'token' => $token,
+        ];
+
+        return Response($response, 200);
     }
 }
