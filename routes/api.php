@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Schema;
 //public routes
 
 Route::post('/register', [UserController::class, 'register']);
+Route::post('/login', [UserController::class, 'login']);
 
 
 //protected routes
