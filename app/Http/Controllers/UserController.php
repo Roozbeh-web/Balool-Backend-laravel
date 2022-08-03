@@ -87,7 +87,7 @@ class UserController extends Controller
         $id = Auth()->user()->id;
         $user = User::find($id);
 
-        $followingsResult = $user->following()->get();
+        $followingsResult = $user->followings()->get();
         
         $followersResult = $user->followers()->get();
 

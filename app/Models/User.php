@@ -45,7 +45,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function following(){
+    public function followings(){
         return $this->belongsToMany(User::class, 'follows', 'user_id', 'followed_user_id')->as('detail')->withPivot('status');
     }
 
