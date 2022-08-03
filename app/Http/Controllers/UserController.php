@@ -73,4 +73,8 @@ class UserController extends Controller
             "message" => "logged out!"
         ]);
     }
+
+    public function follows($id){
+        
+    }
 }
