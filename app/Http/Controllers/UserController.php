@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\FollowResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
@@ -79,14 +80,12 @@ class UserController extends Controller
         $user = User::find($id);
 
         $followingsResult = $user->following()->get();
-        $followingsResult = $followingsResult->makeHidden(['email_verified_at', 'email', 'remember_token', 'created_at', 'updated_at'])->toArray();
-
+        
         $followersResult = $user->followers()->get();
-        $followersResult = $followersResult->makeHidden(['email_verified_at', 'email', 'remember_token', 'created_at', 'updated_at'])->toArray();
 
         return Response([
-            "following" => $followingsResult,
-            "followers" => $followersResult,
+            "following" => FollowResource::collection($followingsResult),
+            "followers" => FollowResource::collection($followersResult),
         ]);
     }
 }
