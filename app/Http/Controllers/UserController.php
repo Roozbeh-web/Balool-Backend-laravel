@@ -31,6 +31,7 @@ class UserController extends Controller
         $token = $user->createToken('mytoken')->plainTextToken;
 
         $response = [
+            'id' => $user->id,
             'fisrtname' => $user->first_name,
             'lastname' => $user->last_name,
             'username' => $user->username,
@@ -88,6 +89,7 @@ class UserController extends Controller
         $user = User::find($id);
 
         $followingsResult = $user->followings()->get();
+
         
         $followersResult = $user->followers()->get();
 

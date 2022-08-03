@@ -20,7 +20,9 @@ class FollowResource extends JsonResource
             'last_name' => $this->last_name,
             'username' => $this->username,
             'avatar' => $this->avatar_path,
-            'status' =>$this->detail['status']
+            'status' =>$this->detail['status'],
+            'followings_count' => $this->followings()->count(),
+            'followers_count' => $this->followers()->count(),
         ];
     }
 }
