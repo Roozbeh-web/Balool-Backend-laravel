@@ -41,6 +41,12 @@ class UserController extends Controller
         return Response($response, 201);
     }
 
+    public function getLogin(){
+        return [
+            'message' => 'You should login or register first'
+        ];
+    }
+
     public function login(Request $request){
         $fields = $request->validate([
             'username'=> 'required|string',
@@ -69,14 +75,16 @@ class UserController extends Controller
     }
 
     public function logout(){
-        auth()->user()->tokens()->delete();
-
-        return Response([
-            "message" => "logged out!"
-        ]);
+            Auth()->user()->tokens()->delete();
+    
+            return Response([
+                "message" => "logged out!"
+            ]);
+        
     }
 
-    public function follows($id=1){
+    public function follows(){
+        $id = Auth()->user()->id;
         $user = User::find($id);
 
         $followingsResult = $user->following()->get();
