@@ -33,6 +33,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'pivot',
     ];
 
     /**
@@ -43,4 +44,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function following(){
+        return $this->belongsToMany(User::class, 'follows', 'user_id', 'followed_user_id');
+    }
+
+    public function followers(){
+        return $this->belongsToMany(User::class, 'follows', 'followed_user_id', 'user_id');
+    }
 }

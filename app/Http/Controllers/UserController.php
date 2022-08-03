@@ -77,10 +77,16 @@ class UserController extends Controller
 
     public function follows($id=1){
         $user = User::find($id);
-        $result = follow::where('followed_user_id', $user->id)->pluck('user_id')->toArray();
-        $result = User::whereIn('id', $result)->get();
-        $result = $result->makeHidden(['email_verified_at', 'email', 'remember_token', 'created_at', 'updated_at'])->toArray();
 
-        dd($result);
+        $followingsResult = $user->following()->get();
+        $followingsResult = $followingsResult->makeHidden(['email_verified_at', 'email', 'remember_token', 'created_at', 'updated_at'])->toArray();
+
+        $followersResult = $user->followers()->get();
+        $followersResult = $followersResult->makeHidden(['email_verified_at', 'email', 'remember_token', 'created_at', 'updated_at'])->toArray();
+
+        return Response([
+            "following" => $followingsResult,
+            "followers" => $followersResult,
+        ]);
     }
 }
