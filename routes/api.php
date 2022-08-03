@@ -7,12 +7,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [UserController::class, 'register']);
 Route::post('/login', [UserController::class, 'login']);
-Route::get('/follows/{id?}', [UserController::class, 'follows']);
 
 
 //protected routes
 
 Route::group(['middleware'=>['auth:sanctum']], function(){
+    Route::get('/follows', [UserController::class, 'follows']);
     Route::post('/logout', [UserController::class, 'logout']);
 });
 
