@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\follow;
 
 class UserController extends Controller
 {
@@ -74,7 +75,12 @@ class UserController extends Controller
         ]);
     }
 
-    public function follows($id){
-        
+    public function follows($id=1){
+        $user = User::find($id);
+        $result = follow::where('followed_user_id', $user->id)->pluck('user_id')->toArray();
+        $result = User::whereIn('id', $result)->get();
+        $result = $result->makeHidden(['email_verified_at', 'email', 'remember_token', 'created_at', 'updated_at'])->toArray();
+
+        dd($result);
     }
 }
