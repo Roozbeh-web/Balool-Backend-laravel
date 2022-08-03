@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\FollowResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
@@ -62,17 +63,7 @@ class UserController extends Controller
             ], 401);
         }
 
-        $token = $user->createToken('mytoken')->plainTextToken;
-
-        $response = [
-            'fisrtname' => $user->first_name,
-            'lastname' => $user->last_name,
-            'username' => $user->username,
-            'email' => $user->email,
-            'token' => $token,
-        ];
-
-        return Response($response, 200);
+        return Response(new UserResource($user));
     }
 
     public function logout(){
