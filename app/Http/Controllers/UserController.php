@@ -85,4 +85,34 @@ class UserController extends Controller
             "followers" => FollowResource::collection($followersResult),
         ]);
     }
+
+    public function update(Request $request){
+        $id = Auth()->user()->id;
+        $user = User::find($id);
+
+        $fields = $request->validate([
+            'first_name'=> 'string',
+            'last_name'=> 'string',
+        ]);
+
+        if(isset($fields['first_name']) && str_replace(" ", "", $fields['first_name']) != ""){
+            $user->firstName = str_replace(" ", "", $fields['first_name']);
+        }
+
+        if(isset($fields['last_name']) && str_replace(" ", "", $fields['last_name']) != ""){
+            $user->lastName = str_replace(" ", "", $fields['last_name']);
+        }
+
+        $user->save();
+
+        $response = [
+            'id' => $user->id,
+            'name' => $user->name,
+            'username' => $user->username,
+            'email' => $user->email,
+        ];
+
+        return Response($response, 200);
+
+    }
 }
