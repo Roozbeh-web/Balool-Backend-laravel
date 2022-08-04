@@ -30,8 +30,7 @@ class UserController extends Controller
 
         $response = [
             'id' => $user->id,
-            'fisrtname' => $user->first_name,
-            'lastname' => $user->last_name,
+            'name' => $user->name,
             'username' => $user->username,
             'email' => $user->email,
             'token' => $token,
