@@ -15,6 +15,7 @@ Route::get('/login', [UserController::class, 'getLogin'])->name('login');
 Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::get('/follows', [UserController::class, 'follows']);
     Route::post('/logout', [UserController::class, 'logout']);
+    Route::put('/update', [UserController::class, 'update']);
 });
 
 

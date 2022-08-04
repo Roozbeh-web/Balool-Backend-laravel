@@ -106,10 +106,8 @@ class UserController extends Controller
         $user->save();
 
         $response = [
-            'id' => $user->id,
+            "message" => "name changed successfully",
             'name' => $user->name,
-            'username' => $user->username,
-            'email' => $user->email,
         ];
 
         return Response($response, 200);
