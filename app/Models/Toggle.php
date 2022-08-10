@@ -7,5 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Toggle extends Model
 {
+
+    protected $fillable = [
+        'user_id',
+        'is_toggled',
+    ];
+
     use HasFactory;
 }
