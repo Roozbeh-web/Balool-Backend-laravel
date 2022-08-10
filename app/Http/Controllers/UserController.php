@@ -54,20 +54,28 @@ class UserController extends Controller
     }
 
     public function login(Request $request){
-        $fields = $request->validate([
+        $validator = Validator::make($request->all(),
+        [
             'username'=> 'required|string',
             'password'=> 'required|string',
         ]);
 
-        $user = User::where("username", $fields["username"])->first();
-
-        if(!$user || !Hash::check($fields["password"], $user->password) ){
+        if($validator->fails()){
             return Response([
-                "message"=>"Wrong criditials!"
-            ], 401);
+                'message' => $validator->messages(),
+            ]);
+        }else{
+            $user = User::where("username", $request->username)->first();
+    
+            if(!$user || !Hash::check($request->password, $user->password) ){
+                return Response([
+                    "message"=>"Wrong criditials!"
+                ], 401);
+            }
+    
+            return Response(new UserResource($user));
         }
 
-        return Response(new UserResource($user));
     }
 
     public function logout(){
@@ -98,24 +106,29 @@ class UserController extends Controller
         $id = Auth()->user()->id;
         $user = User::find($id);
 
-        $fields = $request->validate([
+        $validator = Validator::make($request->all(), [
             'first_name'=> 'string',
             'last_name'=> 'string',
         ]);
 
-        if(isset($fields['first_name']) && str_replace(" ", "", $fields['first_name']) != ""){
-            $user->firstName = str_replace(" ", "", $fields['first_name']);
-        }
-
-        if(isset($fields['last_name']) && str_replace(" ", "", $fields['last_name']) != ""){
-            $user->lastName = str_replace(" ", "", $fields['last_name']);
+        if($validator->fails()){
+            return Response([
+                'message' => $validator->messages(),
+            ]);
+        }else{
+            if(isset($request->first_name)){
+                $user->first_name = $request->first_name;
+            }
+            if(isset($request->last_name)){
+                $user->last_name = $request->last_name;
+            }
         }
 
         $user->save();
 
         $response = [
             "message" => "name changed successfully",
-            'name' => $user->name,
+            'name' => $user->first_name . " " . $user->last_name,
         ];
 
         return Response($response, 200);
