@@ -163,8 +163,9 @@ class UserController extends Controller
         $user = User::find($id);
 
         $validator = Validator::make($request->all(), [
-            'first_name'=> 'string',
-            'last_name'=> 'string',
+            'first_name' => 'string',
+            'last_name' => 'string',
+            'username' => 'string',
         ]);
 
         if($validator->fails()){
@@ -177,6 +178,9 @@ class UserController extends Controller
             }
             if(isset($request->last_name)){
                 $user->last_name = $request->last_name;
+            }
+            if(isset($request->username)){
+                $user->username = $request->username;
             }
         }
 
