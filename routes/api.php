@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ToggleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,8 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::post('/logout', [UserController::class, 'logout']);
     Route::put('/update', [UserController::class, 'update']);
     Route::post('/follow', [UserController::class, 'follow']);
+
+    Route::post('/toggle', [ToggleController::class, 'toggle']);
 });
 
 
