@@ -18,7 +18,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'username',
         'email',
         'password',
@@ -52,13 +53,16 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class, 'follows', 'followed_user_id', 'user_id')->as('detail')->withPivot('status');
     }
 
-    public function setFirstnameAttribute($value){
-        $lastName = explode(" ", $this->name)[1];
-        $this->name = $value . " " . $lastName;
-    }
 
-    public function setLastNameAttribute($value){
-        $firstName = explode(" ", $this->name)[0];
-        $this->name = $firstName . " " . $value;
-    }
+    //disable setters
+
+    // public function setFirstnameAttribute($value){
+    //     $lastName = explode(" ", $this->name)[1];
+    //     $this->name = $value . " " . $lastName;
+    // }
+
+    // public function setLastNameAttribute($value){
+    //     $firstName = explode(" ", $this->name)[0];
+    //     $this->name = $firstName . " " . $value;
+    // }
 }

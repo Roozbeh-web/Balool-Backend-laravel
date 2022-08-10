@@ -20,7 +20,8 @@ class UserController extends Controller
         ]);
 
         $user = User::create([
-            'name'=> str_replace(" ", "", $fields['first_name']) . " " . str_replace(" ", "", $fields['last_name']),
+            'first_name'=> $fields['first_name'],
+            'last_name' => $fields['last_name'],
             'username'=> $fields['username'],
             'email'=> $fields['email'],
             'password'=> bcrypt($fields['password']),
@@ -30,7 +31,7 @@ class UserController extends Controller
 
         $response = [
             'id' => $user->id,
-            'name' => $user->name,
+            'name' => $user->first_name . ' ' . $user->last_name,
             'username' => $user->username,
             'email' => $user->email,
             'token' => $token,
