@@ -7,7 +7,9 @@ use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\follow;
 use Illuminate\Support\Facades\Validator;
+
 
 class UserController extends Controller
 {
@@ -85,6 +87,40 @@ class UserController extends Controller
                 "message" => "logged out!"
             ]);
         
+    }
+
+    public function follow(Request $request){
+        $id = Auth()->user()->id;
+        $validator = Validator::make($request->id, [
+            'id' => 'required|integer',
+        ]);
+
+        if($validator->fails()){
+            return Response([
+                'message' => $validator->messages(),
+            ]);
+        }else{
+            $followedUserId = $request->id;
+            $followedUser = User::find($followedUserId);
+
+            if($followedUser){
+                $follow = follow::create([
+                    'user_id' => $id,
+                    'followed_user_id' => $followedUserId,
+                    'status' => "accept"
+                ]);
+
+                return response([
+                    'message' => "follow request send successfully.",
+                    'followed_user' => $followedUser->username,
+                ], 201);
+            }else{
+                return Response([
+                    'message' => 'There is no user with this id.'
+                ]);
+            }
+        }
+
     }
 
     public function getFollows(){
