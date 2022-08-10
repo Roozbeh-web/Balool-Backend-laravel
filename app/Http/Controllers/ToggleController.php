@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Validator;
 class ToggleController extends Controller
 {
     public function toggle(Request $request){
-
+        
         $id = Auth()->user()->id;
         $validator = Validator::make($request->all(), [
             'is_toggled' => 'required|boolean'

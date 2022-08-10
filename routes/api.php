@@ -18,6 +18,7 @@ Route::group(['middleware'=>['auth:sanctum']], function(){
     Route::post('/logout', [UserController::class, 'logout']);
     Route::put('/update', [UserController::class, 'update']);
     Route::post('/follow', [UserController::class, 'follow']);
+    Route::delete('/delete', [UserController::class, 'delete']);
 
     Route::post('/toggle', [ToggleController::class, 'toggle']);
 });

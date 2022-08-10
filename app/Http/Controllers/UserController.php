@@ -195,4 +195,15 @@ class UserController extends Controller
         return Response($response, 200);
 
     }
+
+    public function delete(){
+        $id = Auth()->user()->id;
+        $user = User::where('id', $id)->first()->delete();
+
+        Auth()->user()->tokens()->delete();
+
+        return Response([
+            'message' => 'User deleted successfully.'
+        ]);
+    }
 }
