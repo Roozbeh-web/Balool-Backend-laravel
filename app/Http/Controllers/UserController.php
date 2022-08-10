@@ -189,6 +189,7 @@ class UserController extends Controller
         $response = [
             "message" => "name changed successfully",
             'name' => $user->first_name . " " . $user->last_name,
+            'username' => $user->username
         ];
 
         return Response($response, 200);
