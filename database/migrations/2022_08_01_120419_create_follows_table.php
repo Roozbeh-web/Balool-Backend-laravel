@@ -14,14 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::create('follows', function (Blueprint $table) {
-            $table->unsignedInteger('user_id');
-            $table->unsignedInteger('followed_user_id');
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('followed_user_id')->constrained('users', 'id');
             $table->string('status');
 
             $table->primary(['user_id', 'followed_user_id']);
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('user_id')->references('id')->on('users');
-
         });
     }
 
