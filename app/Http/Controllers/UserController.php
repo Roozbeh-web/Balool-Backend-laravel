@@ -91,7 +91,7 @@ class UserController extends Controller
 
     public function follow(Request $request){
         $id = Auth()->user()->id;
-        $validator = Validator::make($request->id, [
+        $validator = Validator::make($request->all(), [
             'id' => 'required|integer',
         ]);
 
@@ -100,24 +100,38 @@ class UserController extends Controller
                 'message' => $validator->messages(),
             ]);
         }else{
-            $followedUserId = $request->id;
-            $followedUser = User::find($followedUserId);
 
-            if($followedUser){
-                $follow = follow::create([
-                    'user_id' => $id,
-                    'followed_user_id' => $followedUserId,
-                    'status' => "accept"
-                ]);
-
-                return response([
-                    'message' => "follow request send successfully.",
-                    'followed_user' => $followedUser->username,
-                ], 201);
-            }else{
+            if(!empty(Auth()->user()->followings->where('id', $request->id)->first())){
                 return Response([
-                    'message' => 'There is no user with this id.'
-                ]);
+                    'message' => 'you followed this user before.'
+                ],400);
+
+            }else{
+                $followedUserId = $request->id;
+                $followedUser = User::find($followedUserId);
+    
+                if($followedUser){
+                    $follow = follow::create([
+                        'user_id' => $id,
+                        'followed_user_id' => $followedUserId,
+                        'status' => "accept"
+                    ]);
+    
+                    return response([
+                        'message' => "follow request send successfully.",
+                        'followed_user' => [
+                                'id' => $followedUser->id,
+                                'first_name' => $followedUser->first_name,
+                                'last_name' => $followedUser->last_name,
+                                'username' => $followedUser->username,
+                            ]
+                    ], 201);
+                }else{
+                    return Response([
+                        'message' => 'There is no user with this id.'
+                    ]);
+                }
+
             }
         }
 
