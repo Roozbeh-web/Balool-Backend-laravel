@@ -13,7 +13,7 @@ Route::get('/login', [UserController::class, 'getLogin'])->name('login');
 //protected routes
 
 Route::group(['middleware'=>['auth:sanctum']], function(){
-    Route::get('/follows', [UserController::class, 'follows']);
+    Route::get('/follows', [UserController::class, 'getFollows']);
     Route::post('/logout', [UserController::class, 'logout']);
     Route::put('/update', [UserController::class, 'update']);
 });
