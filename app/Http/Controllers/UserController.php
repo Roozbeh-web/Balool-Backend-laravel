@@ -7,7 +7,7 @@ use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use App\Models\follow;
+use App\Models\Follow;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -104,7 +104,7 @@ class UserController extends Controller
             //if user followed this user before then send a request to unfollow
             if(!empty(Auth()->user()->followings->where('id', $request->id)->first())){
                 
-                $unfollow = follow::where('user_id', $id)->where('followed_user_id', $request->id)->delete();
+                $unfollow = Follow::where('user_id', $id)->where('followed_user_id', $request->id)->delete();
 
                 return Response([
                     'message' => 'unfollowed successfully.',
@@ -117,7 +117,7 @@ class UserController extends Controller
                 $followedUser = User::find($followedUserId);
     
                 if($followedUser){
-                    $follow = follow::create([
+                    $follow = Follow::create([
                         'user_id' => $id,
                         'followed_user_id' => $followedUserId,
                         'status' => "accept"
