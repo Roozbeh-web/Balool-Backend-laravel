@@ -10,7 +10,7 @@ class Toggle extends Model
 
     protected $fillable = [
         'user_id',
-        'is_toggled',
+        'is_happy',
     ];
 
     use HasFactory;
