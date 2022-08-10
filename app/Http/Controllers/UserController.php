@@ -101,11 +101,17 @@ class UserController extends Controller
             ]);
         }else{
 
+            //if user followed this user before then send a request to unfollow
             if(!empty(Auth()->user()->followings->where('id', $request->id)->first())){
-                return Response([
-                    'message' => 'you followed this user before.'
-                ],400);
+                
+                $unfollow = follow::where('user_id', $id)->where('followed_user_id', $request->id)->delete();
 
+                return Response([
+                    'message' => 'unfollowed successfully.',
+                    'follow' => $unfollow
+                ], 200);
+            
+            //else if user not followed this user before, send a request to follow
             }else{
                 $followedUserId = $request->id;
                 $followedUser = User::find($followedUserId);
