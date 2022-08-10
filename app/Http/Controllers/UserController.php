@@ -7,11 +7,12 @@ use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
     public function register(Request $request){
-        $fields = $request->validate([
+        $validator = Validator::make($request->all(), [
             'first_name'=> 'required|string',
             'last_name'=> 'required|string',
             'username'=> 'required|string|unique:users,username',
@@ -19,25 +20,31 @@ class UserController extends Controller
             'password'=> 'required|string|confirmed'
         ]);
 
-        $user = User::create([
-            'first_name'=> $fields['first_name'],
-            'last_name' => $fields['last_name'],
-            'username'=> $fields['username'],
-            'email'=> $fields['email'],
-            'password'=> bcrypt($fields['password']),
-        ]);
-
-        $token = $user->createToken('mytoken')->plainTextToken;
-
-        $response = [
-            'id' => $user->id,
-            'name' => $user->first_name . ' ' . $user->last_name,
-            'username' => $user->username,
-            'email' => $user->email,
-            'token' => $token,
-        ];
-
-        return Response($response, 201);
+        if($validator->fails()){
+            return Response([
+                'message' => $validator->messages(),
+            ]);
+        }else{
+            $user = User::create([
+                'first_name'=> $request->first_name,
+                'last_name' => $request->last_name,
+                'username'=> $request->username,
+                'email'=> $request->email,
+                'password'=> bcrypt($request->password),
+            ]);
+    
+            $token = $user->createToken('mytoken')->plainTextToken;
+    
+            $response = [
+                'id' => $user->id,
+                'name' => $user->first_name . ' ' . $user->last_name,
+                'username' => $user->username,
+                'email' => $user->email,
+                'token' => $token,
+            ];
+    
+            return Response($response, 201);
+        }
     }
 
     public function getLogin(){
