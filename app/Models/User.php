@@ -53,6 +53,10 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class, 'follows', 'followed_user_id', 'user_id')->as('detail')->withPivot('status');
     }
 
+    public function toggles(){
+        return $this->hasMany(Toggle::class, 'user_id', 'id');
+    }
+
 
     //disable setters
 
