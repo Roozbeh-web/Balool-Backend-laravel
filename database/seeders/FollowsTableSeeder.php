@@ -15,7 +15,7 @@ class FollowsTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\follow::truncate();
+        \App\Models\Follow::truncate();
 
         $userIds = DB::table('users')->pluck('id')->toArray();
         $statusArr = ['accept', 'pending'];
@@ -27,7 +27,7 @@ class FollowsTableSeeder extends Seeder
                 if($id != $followedId && $i < 30){
 
                     try{
-                        \App\Models\follow::create([
+                        \App\Models\Follow::create([
                             'user_id'=>$id,
                             'followed_user_id'=>$followedId,
                             'status'=>$statusArr[array_rand($statusArr, 1)]
