@@ -17,4 +17,4 @@
 - [Project status](#project-status)
 
 # General Info
-  Idea of this project belongs to [@Remophix](https://www.github.com/remophix) and for my part, i can define this application in this sentence: __Sometimes simplicity can be more helpful.
+  Idea of this project belongs to [@Remophix](https://www.github.com/remophix) and for my part, i can define this application in this sentence: * *Sometimes simplicity can be more helpful.
