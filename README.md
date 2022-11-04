@@ -17,4 +17,14 @@
 - [Project status](#project-status)
 
 # General Info
-  Idea of this project belongs to [@Remophix](https://www.github.com/remophix) and for my part, i can define this application in this sentence: * *Sometimes simplicity can be more helpful.
+   Idea of this project belongs to [@Remophix](https://www.github.com/remophix) and [Neverhood](https://github.com/orgs/Pupper-A/people/neverh00d7) and for my part, i can define this application in this sentence:<br> "Sometimes simplicity can be more helpful".
+   
+# Technologies
+  - PHP 8
+  - Composer 2.4.2
+  - Laravel 9.19
+  - Sanctum 3.0
+  - Node 16.17.1
+  - Npm 8.15.0
+  - Vite 3.0.0
+  - laravel-vite-plugin 0.5.0
